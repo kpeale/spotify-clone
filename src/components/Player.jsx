@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { assets, songsData } from '../assets/assets';
+import { PlayerContext } from '../context/PlayerContext';
 
 const Player = () => {
+  const { seekBar, seekBg, playerStatus, play, pause } =
+    useContext(PlayerContext);
   return (
     <div className='h-[10%] bg-black flex justify-between items-center text-white px-4'>
       <div className='hidden lg:flex items-center gap-4'>
@@ -27,11 +30,22 @@ const Player = () => {
             alt='shuffle'
             className='w-4 cursor-pointer'
           />
-          <img
-            src={assets.play_icon}
-            alt='shuffle'
-            className='w-4 cursor-pointer'
-          />
+          {playerStatus ? (
+            <img
+              src={assets.pause_icon}
+              alt='shuffle'
+              className='w-4 cursor-pointer'
+              onClick={pause}
+            />
+          ) : (
+            <img
+              src={assets.play_icon}
+              alt='shuffle'
+              className='w-4 cursor-pointer'
+              onClick={play}
+            />
+          )}
+
           <img
             src={assets.next_icon}
             alt='shuffle'
@@ -45,8 +59,14 @@ const Player = () => {
         </div>
         <div className='flex items-center gap-5'>
           <p>1:06</p>
-          <div className='w-[60vw] max-w-[500px] bg-gray-300 rounded-full cursor-pointer'>
-            <hr className='h-1 border-none w-0 bg-green-800 rounded-full' />
+          <div
+            className='w-[60vw] max-w-[500px] bg-gray-300 rounded-full cursor-pointer'
+            ref={seekBg}
+          >
+            <hr
+              className='h-1 border-none w-0 bg-green-800 rounded-full'
+              ref={seekBar}
+            />
           </div>
           <p>3:20</p>
         </div>
